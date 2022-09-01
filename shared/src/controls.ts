@@ -6,6 +6,10 @@ export const accordionControls = defineControls({
   value: { type: "select", defaultValue: "", options: ["home", "about", "contact"], label: "Set value" },
 })
 
+export const avatarControls = defineControls({
+  fallbackDelay: { type: "number", defaultValue: 500, label: "Fallback Delay" },
+})
+
 export const checkboxControls = defineControls({
   indeterminate: { type: "boolean", defaultValue: false, label: "Indeterminate" },
   disabled: { type: "boolean", defaultValue: false, label: "disabled" },
