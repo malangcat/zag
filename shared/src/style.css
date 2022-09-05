@@ -119,6 +119,10 @@ body {
 .avatar [data-part="root"] {
   --avatar-size: 100px;
   --badge-size: 32px;
+
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -134,7 +138,12 @@ body {
   border-radius: 9999px;
 }
 
-.avatar [data-part="badge"] {
+.avatar .avatar-badge {
+  position: absolute;
+  width: var(--badge-size);
+  height: var(--badge-size);
+  top: calc(var(--avatar-size) / 2 + var(--avatar-size) / 2.828 - var(--badge-size) / 2);
+  left: calc(var(--avatar-size) / 2 + var(--avatar-size) / 2.828 - var(--badge-size) / 2);
   border-radius: 9999px;
   background-color: green;
   border: 2px solid white;

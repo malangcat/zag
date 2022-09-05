@@ -9,18 +9,12 @@ export function connect<T extends PropTypes>(state: State, send: Send, normalize
 
   const imageId = dom.getImageId(state.context)
   const fallbackId = dom.getFallbackId(state.context)
-  const badgeId = dom.getBadgeId(state.context)
 
   return {
     isLoaded,
     isFallback,
     rootProps: normalize.element({
       "data-part": "root",
-      style: {
-        position: "relative",
-        width: "var(--avatar-size)",
-        height: "var(--avatar-size)",
-      },
     }),
     imageProps: normalize.img({
       "data-part": "image",
@@ -39,17 +33,6 @@ export function connect<T extends PropTypes>(state: State, send: Send, normalize
       "aria-label": state.context["aria-label"],
       id: fallbackId,
       role: "img",
-    }),
-    badgeProps: normalize.element({
-      "data-part": "badge",
-      id: badgeId,
-      style: {
-        position: "absolute",
-        width: "var(--badge-size)",
-        height: "var(--badge-size)",
-        top: "calc(var(--avatar-size) / 2 + var(--avatar-size) / 2.828 - var(--badge-size) / 2)",
-        left: "calc(var(--avatar-size) / 2 + var(--avatar-size) / 2.828 - var(--badge-size) / 2)",
-      },
     }),
   }
 }

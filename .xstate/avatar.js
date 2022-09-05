@@ -14,6 +14,7 @@ const fetchMachine = createMachine({
   id: "avatar",
   initial: "unknown",
   context: {},
+  activities: ["trackSrcChange"],
   on: {
     UPDATE_CONTEXT: {
       actions: "updateContext"
@@ -26,7 +27,7 @@ const fetchMachine = createMachine({
       }
     },
     loading: {
-      activities: ["trackSrcChange", "trackImageLoad"],
+      activities: ["trackImageLoad"],
       after: {
         FALLBACK_DELAY: "fallback"
       },
@@ -44,7 +45,7 @@ const fetchMachine = createMachine({
       }
     },
     fallback: {
-      activities: ["trackSrcChange", "trackImageLoad"],
+      activities: ["trackImageLoad"],
       on: {
         IMAGE_LOAD: "loaded",
         IMAGE_ERROR: "error",
@@ -52,7 +53,6 @@ const fetchMachine = createMachine({
       }
     },
     error: {
-      activities: ["trackSrcChange"],
       entry: ["invokeOnImageError"],
       on: {
         SRC_CHANGE: "loading"

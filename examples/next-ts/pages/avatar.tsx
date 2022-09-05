@@ -34,7 +34,7 @@ export default function Page() {
               SA
             </div>
           )}
-          <div {...api.badgeProps}></div>
+          <div className="avatar-badge"></div>
         </span>
         <div>
           <input value={delay} onChange={(e) => setDelay(+e.currentTarget.value)} type="number" />

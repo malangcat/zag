@@ -18,6 +18,8 @@ export function machine(ctx: UserDefinedContext) {
         hasAriaLabel: (ctx) => !!ctx["aria-label"],
       },
 
+      activities: ["trackSrcChange"],
+
       states: {
         unknown: {
           on: {
@@ -26,7 +28,7 @@ export function machine(ctx: UserDefinedContext) {
         },
 
         loading: {
-          activities: ["trackSrcChange", "trackImageLoad"],
+          activities: ["trackImageLoad"],
           after: {
             FALLBACK_DELAY: "fallback",
           },
@@ -46,7 +48,7 @@ export function machine(ctx: UserDefinedContext) {
         },
 
         fallback: {
-          activities: ["trackSrcChange", "trackImageLoad"],
+          activities: ["trackImageLoad"],
           on: {
             IMAGE_LOAD: "loaded",
             IMAGE_ERROR: "error",
@@ -55,7 +57,6 @@ export function machine(ctx: UserDefinedContext) {
         },
 
         error: {
-          activities: ["trackSrcChange"],
           entry: ["invokeOnImageError"],
           on: {
             SRC_CHANGE: "loading",
@@ -67,7 +68,7 @@ export function machine(ctx: UserDefinedContext) {
       activities: {
         trackSrcChange(ctx, _evt, { send }) {
           const img = dom.getImageEl(ctx)
-          return observeAttributes(img, "src", () => {
+          return observeAttributes(img, ["src", "srcSet"], () => {
             return send("SRC_CHANGE")
           })
         },
@@ -83,10 +84,10 @@ export function machine(ctx: UserDefinedContext) {
         },
       },
       actions: {
-        invokeOnImageLoad(ctx, _evt) {
+        invokeOnImageLoad(ctx) {
           ctx.onImageLoad?.()
         },
-        invokeOnImageError(ctx, _evt) {
+        invokeOnImageError(ctx) {
           ctx.onImageError?.()
         },
       },
