@@ -707,11 +707,11 @@ export class Machine<
       this.performExitEffects(current, event)
     }
 
-    // execute transition actions
-    this.performTransitionEffects(next.transition, event)
-
     // go to next state
     this.setState(next.target)
+
+    // execute transition actions
+    this.performTransitionEffects(next.transition, event)
 
     if (changed) {
       this.performEntryEffects(next.target, event)

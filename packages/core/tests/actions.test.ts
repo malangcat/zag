@@ -44,3 +44,37 @@ test("exit actions should be called when stopping a machine", () => {
   expect(exit_root).toBeTruthy()
   expect(exit_state).toBeTruthy()
 })
+
+test("state should be after transition", () => {
+  let result = null
+  const on_transition = (_ctx, _evt, { state }) => {
+    result = state.value
+  }
+
+  const machine = createMachine(
+    {
+      initial: "a",
+      states: {
+        a: {
+          on: {
+            TRANSITION: {
+              target: "b",
+              actions: "onTransisition",
+            },
+          },
+        },
+        b: {},
+      },
+    },
+    {
+      actions: {
+        onTransisition: on_transition,
+      },
+    },
+  )
+
+  machine.start()
+  machine.send({ type: "TRANSITION" })
+
+  expect(result).toBe("b")
+})
