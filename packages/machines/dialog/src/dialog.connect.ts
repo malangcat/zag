@@ -1,10 +1,9 @@
 import type { NormalizeProps, PropTypes } from "@zag-js/types"
 import { parts } from "./dialog.anatomy"
 import { dom } from "./dialog.dom"
-import type { Send, State } from "./dialog.types"
+import type { ContentProps, Send, State } from "./dialog.types"
 
 export function connect<T extends PropTypes>(state: State, send: Send, normalize: NormalizeProps<T>) {
-  const ariaLabel = state.context["aria-label"]
   const isOpen = state.matches("open")
   const rendered = state.context.renderedElements
 
@@ -53,17 +52,18 @@ export function connect<T extends PropTypes>(state: State, send: Send, normalize
       },
     }),
 
-    contentProps: normalize.element({
-      ...parts.content.attrs,
-      role: state.context.role,
-      hidden: !isOpen,
-      id: dom.getContentId(state.context),
-      tabIndex: -1,
-      "aria-modal": true,
-      "aria-label": ariaLabel || undefined,
-      "aria-labelledby": ariaLabel || !rendered.title ? undefined : dom.getTitleId(state.context),
-      "aria-describedby": rendered.description ? dom.getDescriptionId(state.context) : undefined,
-    }),
+    getContentProps: (props: ContentProps) =>
+      normalize.element({
+        ...parts.content.attrs,
+        role: props.role || "dialog",
+        hidden: !isOpen,
+        id: dom.getContentId(state.context),
+        tabIndex: -1,
+        "aria-modal": true,
+        "aria-label": props["aria-label"] || undefined,
+        "aria-labelledby": props["aria-label"] || !rendered.title ? undefined : dom.getTitleId(state.context),
+        "aria-describedby": rendered.description ? dom.getDescriptionId(state.context) : undefined,
+      }),
 
     titleProps: normalize.element({
       ...parts.title.attrs,

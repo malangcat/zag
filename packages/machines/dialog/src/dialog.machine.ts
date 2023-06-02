@@ -16,7 +16,6 @@ export function machine(userContext: UserDefinedContext) {
       initial: ctx.open ? "open" : "closed",
 
       context: {
-        role: "dialog",
         renderedElements: {
           title: true,
           description: true,

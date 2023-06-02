@@ -66,15 +66,6 @@ type PublicContext = DirectionProperty &
      */
     onEsc?: () => void
     /**
-     * Human readable label for the dialog, in event the dialog title is not rendered
-     */
-    "aria-label"?: string
-    /**
-     * The dialog's role
-     * @default "dialog"
-     */
-    role: "dialog" | "alertdialog"
-    /**
      * Whether the dialog is open
      */
     open?: boolean
@@ -104,3 +95,15 @@ export type MachineState = {
 export type State = S.State<MachineContext, MachineState>
 
 export type Send = S.Send<S.AnyEventObject>
+
+export type ContentProps = {
+  /**
+   * Human readable label for the dialog, in event the dialog title is not rendered
+   */
+  "aria-label"?: string
+  /**
+   * The dialog's role
+   * @default "dialog"
+   */
+  role: "dialog" | "alertdialog"
+}
